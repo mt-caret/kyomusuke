@@ -13,6 +13,8 @@
 $ nix-shell --command 'yarn install; return' # will drop you into a dev env shell
 ```
 
+initialize db with `node --harmony bin/init-db.js`
+
 ## TODO
 
 - [ ] SQLite schema
