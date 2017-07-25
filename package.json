@@ -1,0 +1,21 @@
+{
+  "name": "calendar-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "mt_caret",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.3",
+    "node-fetch": "^1.7.1",
+    "sqlite3": "^3.1.8"
+  },
+  "scripts": {
+    "run": "node --harmony index.js",
+    "lint": "eslint index.js lib/ bin/"
+  },
+  "devDependencies": {
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0"
+  }
+}
