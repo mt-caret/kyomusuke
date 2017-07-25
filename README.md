@@ -17,10 +17,12 @@ initialize db with `node --harmony bin/init-db.js`
 
 ## TODO
 
+- [ ] integrate with frontend?
+
 - [ ] SQLite schema
 - [ ] bin/init-db.js
 - [ ] create API
-- [ ] worker that queries AOJ API
+- [ ] worker that queries AOJ API (w/ node-schedule)
 - [ ] cache the response with ex. node-cache?
 - [ ] deploy
 
