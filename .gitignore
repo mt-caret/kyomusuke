@@ -64,4 +64,14 @@ typings/
 
 # End of https://www.gitignore.io/api/node
 
+# Created by https://www.gitignore.io/api/elm
+
+### Elm ###
+# elm-package generated files
+elm-stuff
+# elm-repl generated files
+repl-temp-*
+
+# End of https://www.gitignore.io/api/elm
+
 db.sqlite

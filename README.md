@@ -17,7 +17,13 @@ initialize db with `node --harmony bin/init-db.js`
 
 ## TODO
 
-- [ ] integrate with frontend?
+### frontend
+
+- [x] webpack production build env
+- [x] integrate with frontend
+- [ ] App.elm
+
+### backend
 
 - [ ] SQLite schema
 - [ ] bin/init-db.js
