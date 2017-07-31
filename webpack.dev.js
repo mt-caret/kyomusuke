@@ -11,20 +11,6 @@ module.exports = Merge(CommonConfig, {
       },
     }),
   ],
-//  module: {
-//    rules: [
-//      {
-//        test: /\.elm$/,
-//        exclude: [/elm-stuff/, /node_modules/],
-//        use: {
-//          loader: 'elm-webpack-loader',
-//          options: {
-//            debug: true,
-//          }
-//        },
-//      },
-//    ]
-//  },
   devtool: 'inline-source-map',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
