@@ -37,8 +37,20 @@ function throttle(promiseThunks) {
   return sequencePromiseThunks(throttledThunks);
 }
 
-function updateFromApi() {
+function openDB(f) {
   const db = new sqlite3.Database('db.sqlite');
+  return Promise.resolve(db)
+    .then(f)
+    .then((res) => {
+      db.close();
+      return res;
+    }, (err) => {
+      db.close();
+      throw err;
+    });
+}
+
+function updateFromApi() {
   const genThunk =
     id =>
       accum =>
@@ -46,48 +58,46 @@ function updateFromApi() {
           .then(res => R.append(res, accum));
 
   const table = new Map();
-  const lookup = (userId) => {
-    if (table.has(userId)) return Promise.resolve(table[userId]);
-    return get(db, 'SELECT id from user where aoj_id == ?', [userId])
-      .then((res) => {
-        table[userId] = res.id;
-        return res.id;
-      });
-  };
 
-  return all(db, 'SELECT aoj_id AS id FROM user', [])
-    .then(R.map(row => genThunk(row.id)))
-    .then(throttle)
-    .then((res) => {
-      const stmt = db.prepare(`
-        INSERT OR IGNORE INTO problem (
-          judge_id, status, user_id, date
-        ) VALUES (
-          ?, ?, ?, ?
-        );
-      `);
-
-      const updates = res.map((probs) => {
-        if (probs.length === 0) return Promise.resolve();
-        return lookup(R.toLower(probs[0].userId))
-          .then((id) => {
-            probs.forEach((prob) => {
-              stmt.run(prob.judgeId, prob.status, id, prob.submissionDate);
-            });
-          });
-      });
-
-      return Promise.all(updates)
-        .then(() => {
-          stmt.finalize();
-          return res;
+  return openDB((db) => {
+    const lookup = (userId) => {
+      if (table.has(userId)) return Promise.resolve(table[userId]);
+      return get(db, 'SELECT id from user where aoj_id == ?', [userId])
+        .then((res) => {
+          table[userId] = res.id;
+          return res.id;
         });
-    })
-    .catch(console.error)
-    .then((res) => {
-      db.close();
-      return res;
-    });
+    };
+
+    return all(db, 'SELECT aoj_id AS id FROM user', [])
+      .then(R.map(row => genThunk(row.id)))
+      .then(throttle)
+      .then((res) => {
+        const stmt = db.prepare(`
+          INSERT OR IGNORE INTO problem (
+            judge_id, status, user_id, date
+          ) VALUES (
+            ?, ?, ?, ?
+          );
+        `);
+
+        const updates = res.map((probs) => {
+          if (probs.length === 0) return Promise.resolve();
+          return lookup(R.toLower(probs[0].userId))
+            .then((id) => {
+              probs.forEach((prob) => {
+                stmt.run(prob.judgeId, prob.status, id, prob.submissionDate);
+              });
+            });
+        });
+
+        return Promise.all(updates)
+          .then(() => {
+            stmt.finalize();
+            return res;
+          });
+      })
+  });
 }
 
 module.exports = {
