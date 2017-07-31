@@ -6,6 +6,8 @@ with import <nixpkgs> {}; {
       yarn
       nodejs
       sqlite
+      jq
+      curl
     ];
   };
 }

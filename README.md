@@ -5,12 +5,15 @@
 ## dependencies
 
 - Nix Package Manager
-- nothing else, node stuff will be take care by above
+- nothing else, node stuff, sqlite3, etc. will be take care by above
 
 ## dev
 
 ```
 $ nix-shell --command 'yarn install; return' # will drop you into a dev env shell
+[nix-shell]$ bash bin/init-db.sh
+[nix-shell]$ bash bin/add-user.sh [aoj_user_id] # add a user
+[nix-shell]$ node bin/hit-api.js # access AOJ API and populate database
 ```
 
 initialize db with `node --harmony bin/init-db.js`
@@ -25,8 +28,10 @@ initialize db with `node --harmony bin/init-db.js`
 
 ### backend
 
-- [ ] SQLite schema
-- [ ] bin/init-db.js
+- [x] SQLite schema
+- [x] bin/init-db.sh
+- [x] bin/add-user.sh
+- [x] bin/hit-api.js
 - [ ] create API
 - [ ] worker that queries AOJ API (w/ node-schedule)
 - [ ] cache the response with ex. node-cache?
