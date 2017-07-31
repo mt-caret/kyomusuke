@@ -5,7 +5,7 @@
 ## dependencies
 
 - Nix Package Manager
-- nothing else, node stuff, sqlite3, etc. will be take care by above
+- nothing else; node stuff, sqlite3, etc. will be take care by Nix
 
 ## dev
 
@@ -15,8 +15,6 @@ $ nix-shell --command 'yarn install; return' # will drop you into a dev env shel
 [nix-shell]$ bash bin/add-user.sh [aoj_user_id] # add a user
 [nix-shell]$ node bin/hit-api.js # access AOJ API and populate database
 ```
-
-initialize db with `node --harmony bin/init-db.js`
 
 ## TODO
 
