@@ -43,6 +43,21 @@ function getRelevantSubmissions(userId) {
     .then(R.filter(validate));
 }
 
+function lookupJudgeVerdict(statusCode) {
+  switch (statusCode) {
+    case 0: return 'CE'; // Compile Error
+    case 1: return 'WA'; // Wrong Answer
+    case 2: return 'TLE'; // Time Limit Exceeded
+    case 3: return 'MLE'; // Memory Limit Exceeded
+    case 4: return 'AC'; // Accepted
+//    case 5: return '???'; // undocumented statusCode code
+    case 6: return 'OLU'; // Output Limit Exceeded
+    case 7: return 'RE'; // Runtime Error
+    case 8: return 'PE'; // Presentation Error
+  }
+  throw new Error('invalid statusCode lookup: ' + statusCode);
+}
+
 module.exports = {
   getRelevantSubmissions,
 };
