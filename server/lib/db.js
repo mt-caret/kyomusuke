@@ -75,9 +75,9 @@ function updateFromApi() {
       .then((res) => {
         const stmt = db.prepare(`
           INSERT OR IGNORE INTO problem (
-            judge_id, status, user_id, date
+            judge_id, problem_id, status, user_id, date
           ) VALUES (
-            ?, ?, ?, ?
+            ?, ?, ?, ?, ?
           );
         `);
 
@@ -86,7 +86,7 @@ function updateFromApi() {
           return lookup(R.toLower(probs[0].userId))
             .then((id) => {
               probs.forEach((prob) => {
-                stmt.run(prob.judgeId, prob.status, id, prob.submissionDate);
+                stmt.run(prob.judgeId, prob.problemId, prob.status, id, prob.submissionDate);
               });
             });
         });
