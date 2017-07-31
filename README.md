@@ -1,6 +1,6 @@
-# kyomusuke backend
+# kyomusuke
 
-各位の進捗を可視化するやつのフロントエンド
+進捗を可視化するやつ
 
 ## dependencies
 
