@@ -1,12 +1,16 @@
 const express = require('express');
 const webpack = require('webpack');
+const schedule = require('node-schedule');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackConfig = require('../webpack.dev.js');
 
 const api = require('./lib/api.js');
+const db = require('./lib/db.js');
 const list = require('./lib/list.js').list;
 
 const development = process.env.NODE_ENV !== 'production';
+
+const job = schedule.scheduleJob({ minute: 0 }, db.updateFromApi);
 
 const app = express();
 

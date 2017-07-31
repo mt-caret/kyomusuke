@@ -62,7 +62,7 @@ function updateFromApi() {
   return openDB((db) => {
     const lookup = (userId) => {
       if (table.has(userId)) return Promise.resolve(table[userId]);
-      return get(db, 'SELECT id from user where aoj_id == ?', [userId])
+      return get(db, 'SELECT id FROM user WHERE aoj_id == ?', [userId])
         .then((res) => {
           table[userId] = res.id;
           return res.id;
