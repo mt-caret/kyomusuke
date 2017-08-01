@@ -22,7 +22,9 @@ $ nix-shell --command 'yarn install; return' # will drop you into a dev env shel
 
 - [x] webpack production build env
 - [x] integrate with frontend
-- [ ] App.elm
+- [x] App.elm
+- [ ] proper date support
+- [ ] status colors
 
 ### backend
 

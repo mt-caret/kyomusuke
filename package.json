@@ -5,6 +5,7 @@
   "author": "mt_caret",
   "license": "MIT",
   "dependencies": {
+    "bootstrap": "4.0.0-alpha.6",
     "clean-webpack-plugin": "^0.1.16",
     "express": "^4.15.3",
     "html-webpack-plugin": "^2.29.0",
