@@ -35,3 +35,7 @@ $ nix-shell --command 'yarn install; return' # will drop you into a dev env shel
 - [ ] cache the response with ex. node-cache?
 - [ ] deploy
 
+### misc
+
+- [ ] document production deployment workflow
+
