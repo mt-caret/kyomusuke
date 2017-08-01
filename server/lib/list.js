@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 
 const filepath = `${__dirname}/aoj-icpc-idlist.json`;
 const content = fs.readFileSync(filepath, 'utf8');
