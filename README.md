@@ -25,6 +25,7 @@ $ nix-shell --command 'yarn install; return' # will drop you into a dev env shel
 - [x] App.elm
 - [ ] proper date support
 - [ ] status colors
+- [ ] debug mode
 
 ### backend
 
@@ -36,6 +37,7 @@ $ nix-shell --command 'yarn install; return' # will drop you into a dev env shel
 - [x] worker that queries AOJ API (w/ node-schedule)
 - [ ] cache the response with ex. node-cache?
 - [ ] deploy
+- [ ] debug mode
 
 ### misc
 
