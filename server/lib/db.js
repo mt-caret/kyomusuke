@@ -96,7 +96,7 @@ function updateFromApi() {
             stmt.finalize();
             return res;
           });
-      })
+      });
   });
 }
 

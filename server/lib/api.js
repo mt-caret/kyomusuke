@@ -50,14 +50,15 @@ function lookupJudgeVerdict(statusCode) {
     case 2: return 'TLE'; // Time Limit Exceeded
     case 3: return 'MLE'; // Memory Limit Exceeded
     case 4: return 'AC'; // Accepted
-//    case 5: return '???'; // undocumented statusCode code
+    // case 5: return '???'; // undocumented statusCode code
     case 6: return 'OLU'; // Output Limit Exceeded
     case 7: return 'RE'; // Runtime Error
     case 8: return 'PE'; // Presentation Error
+    default: throw new Error(`invalid statusCode lookup: ${statusCode}`);
   }
-  throw new Error('invalid statusCode lookup: ' + statusCode);
 }
 
 module.exports = {
   getRelevantSubmissions,
+  lookupJudgeVerdict,
 };
