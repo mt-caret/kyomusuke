@@ -23,6 +23,7 @@ $ nix-shell --command 'yarn install; return' # will drop you into a dev env shel
 - [x] webpack production build env
 - [x] integrate with frontend
 - [x] App.elm
+- [ ] add-user
 - [ ] proper date support
 - [ ] status colors
 - [ ] debug mode
@@ -35,8 +36,9 @@ $ nix-shell --command 'yarn install; return' # will drop you into a dev env shel
 - [x] bin/hit-api.js
 - [x] create API
 - [x] worker that queries AOJ API (w/ node-schedule)
-- [ ] cache the response with ex. node-cache?
 - [ ] deploy
+- [ ] add-user API
+- [ ] cache the response with ex. node-cache?
 - [ ] debug mode
 
 ### misc
