@@ -43,22 +43,29 @@ function getRelevantSubmissions(userId) {
     .then(R.filter(validate));
 }
 
+const judgeVerdictsMap = {
+  0: 'CE', // Compile Error
+  1: 'WA', // Wrong Answer
+  2: 'TLE', // Time Limit Exceeded
+  3: 'MLE', // Memory Limit Exceeded
+  4: 'AC', // Accepted
+  // 5: '???', // undocumented statusCode code
+  6: 'OLU', // Output Limit Exceeded
+  7: 'RE', // Runtime Error
+  8: 'PE', // Presentation Error
+};
+
 function lookupJudgeVerdict(statusCode) {
-  switch (statusCode) {
-    case 0: return 'CE'; // Compile Error
-    case 1: return 'WA'; // Wrong Answer
-    case 2: return 'TLE'; // Time Limit Exceeded
-    case 3: return 'MLE'; // Memory Limit Exceeded
-    case 4: return 'AC'; // Accepted
-    // case 5: return '???'; // undocumented statusCode code
-    case 6: return 'OLU'; // Output Limit Exceeded
-    case 7: return 'RE'; // Runtime Error
-    case 8: return 'PE'; // Presentation Error
-    default: throw new Error(`invalid statusCode lookup: ${statusCode}`);
+  if (R.isNil(judgeVerdictsMap[statusCode])) {
+    throw new Error(`invalid statusCode lookup: ${statusCode}`);
   }
+  return judgeVerdictsMap[statusCode];
 }
 
 module.exports = {
   getRelevantSubmissions,
   lookupJudgeVerdict,
+  dateStart,
+  dateEnd,
+  judgeVerdicts: R.values(judgeVerdictsMap),
 };

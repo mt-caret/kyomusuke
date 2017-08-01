@@ -30,7 +30,7 @@ $ nix-shell --command 'yarn install; return' # will drop you into a dev env shel
 - [x] bin/init-db.sh
 - [x] bin/add-user.sh
 - [x] bin/hit-api.js
-- [ ] create API
+- [x] create API
 - [x] worker that queries AOJ API (w/ node-schedule)
 - [ ] cache the response with ex. node-cache?
 - [ ] deploy

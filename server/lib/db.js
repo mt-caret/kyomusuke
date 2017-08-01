@@ -100,6 +100,16 @@ function updateFromApi() {
   });
 }
 
+function fetchAllProblems() {
+  const query = `
+    SELECT status, date, aoj_id
+    FROM problem JOIN user ON problem.user_id == user.id
+    ORDER BY date ASC
+  `;
+  return openDB(db => all(db, query));
+}
+
 module.exports = {
   updateFromApi,
+  fetchAllProblems,
 };
