@@ -61,13 +61,27 @@ app.get('/stats', (req, res) => {
   });
 });
 
+app.get('/users', (req, res) => {
+  res.format({
+    json: () => {
+      db.fetchAllUsers()
+        .then(obj => res.send(obj));
+    },
+  });
+});
+
 app.post('/add', (req, res) => {
   res.format({
     json: () => {
       const valid = req.body.keyword === '慶應';
+      console.log(req.body);
       if (valid) {
+        console.log('adding stuff');
         spawn('bash', ['./bin/add-user.sh', req.body.userId])
-          .on('close', code => res.send({ code, status: 'success' }));
+          .on('close', (code) => {
+            console.log({ code });
+            res.send({ code, status: 'success' });
+          });
       } else {
         res.status(401);
         res.send({ status: 'keyword mismatch' });

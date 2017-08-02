@@ -109,7 +109,17 @@ function fetchAllProblems() {
   return openDB(db => all(db, query));
 }
 
+function fetchAllUsers() {
+  const query = `
+    SELECT aoj_id
+    FROM user
+  `;
+  return openDB(db => all(db, query))
+    .then(R.map(R.prop('aoj_id')));
+}
+
 module.exports = {
   updateFromApi,
   fetchAllProblems,
+  fetchAllUsers,
 };

@@ -142,4 +142,19 @@ queryVerdict vd date user =
     case Dict.get (dateToString date) vd of
         Nothing -> initVerdict
         Just vbu -> Maybe.withDefault initVerdict (Dict.get user vbu)
+    
+
+type alias AddUserResponse =
+  { code : Maybe Int
+  , status : String
+  }
+
+addUserResponseDecoder : Decoder AddUserResponse
+addUserResponseDecoder =
+    map2 AddUserResponse
+        (field "code" (maybe int))
+        (field "status" string)
+
+userListDecoder : Decoder (List String)
+userListDecoder = list string
 

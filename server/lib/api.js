@@ -6,9 +6,7 @@ const list = require('./list.js').list;
 
 const endpoint = 'https://judgeapi.u-aizu.ac.jp';
 const maxProblemCount = 5000;
-// const dateStart = moment('2017-08-01');
-// const dateEnd = moment('2017-09-01');
-const dateStart = moment('2015-08-01');
+ const dateStart = moment('2017-08-01');
 const dateEnd = moment('2017-09-01');
 
 function validate(sub) {
