@@ -10,7 +10,7 @@
 ## dev
 
 ```
-$ nix-shell --command 'yarn install; return' # will drop you into a dev env shell
+$ nix-shell --command 'yarn install; elm package install; return' # will drop you into a dev env shell
 [nix-shell]$ bash bin/init-db.sh
 [nix-shell]$ bash bin/add-user.sh [aoj_user_id] # add a user
 [nix-shell]$ node bin/hit-api.js # access AOJ API and populate database
