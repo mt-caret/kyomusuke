@@ -1,8 +1,10 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const webpack = require('webpack');
 const schedule = require('node-schedule');
 const moment = require('moment');
 const R = require('ramda');
+const { spawn } = require('child_process');
 const webpackMiddleware = require('webpack-dev-middleware');
 
 const webpackConfig = require('../webpack.dev.js');
@@ -29,6 +31,8 @@ if (development) {
   // production config (static?)
 }
 
+app.use(bodyParser.json());
+
 const baseVerdictResult = R.fromPairs(R.map(v => [v, 0], api.judgeVerdicts));
 function dbCallToObject() {
   return db.fetchAllProblems()
@@ -53,6 +57,21 @@ app.get('/stats', (req, res) => {
     json: () => {
       dbCallToObject()
         .then(obj => res.send(obj));
+    },
+  });
+});
+
+app.post('/add', (req, res) => {
+  res.format({
+    json: () => {
+      const valid = req.body.keyword === '慶應';
+      if (valid) {
+        spawn('bash', ['./bin/add-user.sh', req.body.userId])
+          .on('close', code => res.send({ code, status: 'success' }));
+      } else {
+        res.status(401);
+        res.send({ status: 'keyword mismatch' });
+      }
     },
   });
 });

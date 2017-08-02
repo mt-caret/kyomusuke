@@ -38,6 +38,7 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [x] worker that queries AOJ API (w/ node-schedule)
 - [ ] deploy
 - [ ] add-user API
+- [ ] use js instead of shell exec to process user addition
 - [ ] cache the response with ex. node-cache?
 - [ ] debug mode
 
