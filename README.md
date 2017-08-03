@@ -31,7 +31,7 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [x] App.elm
 - [x] add-user
 - [ ] show proper error when adding user fails
-- [ ] add about text
+- [x] add about text
 - [ ] proper routing
 - [ ] proper date support
 - [ ] status colors on cells (green if AC > 0, yellow if AC == 0 && today, red if AC == 0 && past)
@@ -48,7 +48,8 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [x] deploy
 - [x] add-user API
 - [x] read from config file
-- [ ] use js instead of shell exec to process user addition
+- [x] use js instead of shell exec to process user addition
+- [ ] hit api when user is added
 - [ ] cache the response with ex. node-cache?
 - [ ] debug mode
 
