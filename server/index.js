@@ -79,13 +79,17 @@ app.post('/add', (req, res) => {
   res.format({
     json: () => {
       const valid = R.any(R.equals(req.body.keyword), config.keywords);
-      console.log(req.body);
+      if (development) console.log({ body: req.body, config, valid });
       if (valid) {
-        console.log('adding stuff');
-        spawn('bash', ['./bin/add-user.sh', req.body.userId])
-          .on('close', (code) => {
-            console.log({ code });
-            res.send({ code, status: 'success' });
+        api.doesUserExist(req.body.userId)
+          .then((userExists) => {
+            if (!userExists) {
+              res.status(401);
+              res.send({ status: 'user does not exist' });
+            } else {
+              return db.addUser(req.body.userId)
+                .then(() => res.send({ status: 'success' }));
+            }
           });
       } else {
         res.status(401);
