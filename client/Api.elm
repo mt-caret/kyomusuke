@@ -86,7 +86,7 @@ dateToString d =
       yearStr ++ "-" ++ monthStr ++ "-" ++ dayStr
 
 startDate : Date
-startDate = Date 2017 8 1
+startDate = Date 2017 8 3
 
 endDate : Date
 endDate = Date 2017 9 1
