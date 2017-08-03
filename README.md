@@ -23,7 +23,7 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [x] webpack production build env
 - [x] integrate with frontend
 - [x] App.elm
-- [ ] add-user
+- [x] add-user
 - [ ] proper date support
 - [ ] status colors
 - [ ] debug mode
@@ -37,12 +37,15 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [x] create API
 - [x] worker that queries AOJ API (w/ node-schedule)
 - [ ] deploy
-- [ ] add-user API
+- [x] add-user API
+- [ ] read from config file
 - [ ] use js instead of shell exec to process user addition
 - [ ] cache the response with ex. node-cache?
 - [ ] debug mode
 
 ### misc
 
+- [ ] query AtCoder problems too
+- [ ] upload results to slack
 - [ ] document production deployment workflow
 
