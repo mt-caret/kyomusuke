@@ -89,12 +89,12 @@ navbar =
                 [ li
                     [ class "nav-item active", onClick (PageTransition About) ]
                     [ a [ class "nav-link", href "#about" ]
-                        [ text "about" ]
+                        [ text "kyomusukeについて" ]
                     ]
                 , li
                     [ class "nav-item active", onClick (PageTransition AddUser) ]
                     [ a [ class "nav-link", href "#addUser" ]
-                        [ text "add" ]
+                        [ text "ユーザを追加" ]
                     ]
                 ]
             ]
@@ -103,10 +103,14 @@ navbar =
 
 content : Model -> Html Msg
 content model =
-    case model.page of
-        Table -> tableView model
-        About -> p [] [ text "準備中..." ]
-        AddUser -> addUserView
+    let
+          content = 
+              case model.page of
+                  Table -> tableView model
+                  About -> aboutView
+                  AddUser -> addUserView
+    in
+        div [ class "content" ] [ content ]
 
 
 tableView : Model -> Html Msg
@@ -128,6 +132,14 @@ tableView model =
             , tbody [] (List.map enumUsers range)
             ]
 
+aboutView : Html Msg
+aboutView = 
+    div [ class "card text-center" ]
+      [ div [ class "card-block" ]
+          [ h2 [] [ text "kyomusukeについて" ]
+          , p [] [ text "夏休みの一ヶ月の間競プロの問題を一日一問解いて行こうという試みを支援するために開発された、進捗を可視化するサービスです。" ]
+          ]
+      ]
 
 addUserView : Html Msg
 addUserView =
@@ -140,6 +152,7 @@ addUserView =
             [ label [ for "keyword" ]
                 [ text "キーワード" ]
             , input [ onInput NewKeyword, class "form-control", id "keyword", placeholder "キーワード", type_ "text" ] []
+            , small [ class "form-text text-muted" ] [ text "キーワードを知らないと登録できないよ。" ]
             ]
         , button [ onClick SubmitAddUser, class "btn btn-primary", type_ "submit" ] [ text "追加" ]
         ]
