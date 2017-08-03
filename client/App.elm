@@ -112,18 +112,18 @@ content model =
 tableView : Model -> Html Msg
 tableView model =
     let
-        acToTd n = td [] [ text (toString n) ]
+        acToTd n = td [ class "text-center" ] [ text (toString n) ]
         enumUsers date =
             tr []
-            ((th [ scope "row" ] [ text (Api.dateToString date) ]) ::
+            ((th [ scope "row", class "text-center" ] [ text (Api.dateToString date) ]) ::
               List.map (Api.queryVerdict model.data date >> .ac >> acToTd) model.users)
         range = Api.dateRange Api.startDate Api.endDate
     in
         table [ class "table table-bordered table-sm" ]
             [ thead []
                 [ tr []
-                    ((th [] [ text "date" ]) ::
-                    List.map (\x -> th [] [ text x ]) model.users)
+                    ((th [ class "text-center" ] [ text "date" ]) ::
+                    List.map (\x -> th [ class "text-center" ] [ text x ]) model.users)
                 ]
             , tbody [] (List.map enumUsers range)
             ]
