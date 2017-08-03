@@ -6,6 +6,11 @@ const moment = require('moment');
 const R = require('ramda');
 const { spawn } = require('child_process');
 const webpackMiddleware = require('webpack-dev-middleware');
+const fs = require('fs');
+const yaml = require('js-yaml');
+
+const configText = fs.readFileSync(`${__dirname}/../config.yml`, 'utf8');
+const config = yaml.safeLoad(configText);
 
 const webpackConfig = require('../webpack.dev.js');
 
@@ -73,7 +78,7 @@ app.get('/users', (req, res) => {
 app.post('/add', (req, res) => {
   res.format({
     json: () => {
-      const valid = req.body.keyword === '慶應';
+      const valid = R.any(R.equals(req.body.keyword), config.keywords);
       console.log(req.body);
       if (valid) {
         console.log('adding stuff');

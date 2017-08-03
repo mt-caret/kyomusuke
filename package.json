@@ -10,6 +10,7 @@
     "clean-webpack-plugin": "^0.1.16",
     "express": "^4.15.3",
     "html-webpack-plugin": "^2.29.0",
+    "js-yaml": "^3.9.1",
     "moment": "^2.18.1",
     "node-fetch": "^1.7.1",
     "node-schedule": "^1.2.3",
