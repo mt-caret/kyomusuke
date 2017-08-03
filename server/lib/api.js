@@ -1,12 +1,13 @@
 const R = require('ramda');
 const fetch = require('node-fetch');
 const moment = require('moment');
+const xml2js = require('xml2js');
 
 const list = require('./list.js').list;
 
 const endpoint = 'https://judgeapi.u-aizu.ac.jp';
 const maxProblemCount = 5000;
- const dateStart = moment('2017-08-01');
+const dateStart = moment('2017-08-01');
 const dateEnd = moment('2017-09-01');
 
 function validate(sub) {
@@ -25,20 +26,56 @@ function extract(sub) {
   ], sub);
 }
 
-function hitAPI(url) {
+function hitJsonApi(url) {
   return fetch(url).then(res => res.json());
+}
+
+function hitXmlApi(url) {
+  return fetch(url)
+    .then(res => res.text())
+    .then(res => {
+      return new Promise((resolve, reject) => {
+        xml2js.parseString(res, { trim: true }, (err, res) => {
+          if (err) reject(err);
+          else resolve(res);
+        });
+      });
+    });
 }
 
 function getAllSubmissions(userId) {
   const url =
     `${endpoint}/submission_records/users/${userId}?size=${maxProblemCount}`;
-  return hitAPI(url)
+  return hitJsonApi(url)
     .then(R.map(extract));
 }
 
 function getRelevantSubmissions(userId) {
   return getAllSubmissions(userId)
     .then(R.filter(validate));
+}
+
+function hitDeprecatedApi(userId) {
+  // this retrieves all solved problems
+  const oldEndpoint = 'http://judge.u-aizu.ac.jp';
+  const url =
+    `${oldEndpoint}/onlinejudge/webservice/solved_record?user_id=${userId}`;
+  return hitXmlApi(url)
+    .then(res => R.defaultTo([], res.solved_record_list.solved))
+    .then(R.map(record => {
+      return {
+        judgeId: parseInt(record.run_id[0], 10),
+        userId: record.user_id[0],
+        problemId: record.problem_id[0],
+        submissionDate: parseInt(record.date[0], 10),
+        status: 4,
+      };
+    }));
+}
+
+function getRelevantSubmissionsWithDeprecatedApi(userId) {
+  return hitDeprecatedApi(userId)
+   .then(R.filter(validate));
 }
 
 const judgeVerdictsMap = {
@@ -61,7 +98,8 @@ function lookupJudgeVerdict(statusCode) {
 }
 
 module.exports = {
-  getRelevantSubmissions,
+  hitDeprecatedApi,
+  getRelevantSubmissions: getRelevantSubmissionsWithDeprecatedApi,
   lookupJudgeVerdict,
   dateStart,
   dateEnd,
