@@ -140,9 +140,12 @@ tableView model =
             else if isPast date model.today then " table-danger"
             else "")
         acToTd date n = td [ classColor date n ] [ text (toString n) ]
+        dateHeaderClass date = class ("text-center" ++
+            if date == model.today then " table-active"
+            else "")
         enumUsers date =
             tr []
-            ((th [ scope "row", class "text-center" ] [ text (Api.dateToString date) ]) ::
+            ((th [ scope "row", dateHeaderClass date ] [ text (Api.dateToString date) ]) ::
               List.map (Api.queryVerdict model.data date >> .ac >> acToTd date) model.users)
         range = Api.dateRange Api.startDate Api.endDate
     in
