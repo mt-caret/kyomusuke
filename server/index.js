@@ -33,7 +33,7 @@ if (development) {
   };
   app.use(webpackMiddleware(webpack(webpackConfig), middlewareConfig));
 } else {
-  // production config (static?)
+  app.use(express.static('dist'));
 }
 
 app.use(bodyParser.json());
@@ -96,5 +96,5 @@ app.post('/add', (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log('Example app listening on port 3000!');
+  console.log('kyomusuke listening on port 3000!');
 });

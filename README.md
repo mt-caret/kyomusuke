@@ -14,7 +14,13 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 [nix-shell]$ bash bin/init-db.sh
 [nix-shell]$ bash bin/add-user.sh [aoj_user_id] # add a user
 [nix-shell]$ node bin/hit-api.js # access AOJ API and populate database
+[nix-shell]$ touch config.yml # fill as needed
+[nix-shell]$ yarn server # server/index.js runs with webpack-dev-server middleware
 ```
+
+## prod
+
+`$ yarn deploy`
 
 ## TODO
 
@@ -26,7 +32,7 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [x] add-user
 - [ ] proper date support
 - [ ] status colors
-- [ ] debug mode
+- [ ] debug mode (give NODE_ENV to Elm)
 
 ### backend
 
@@ -36,7 +42,7 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [x] bin/hit-api.js
 - [x] create API
 - [x] worker that queries AOJ API (w/ node-schedule)
-- [ ] deploy
+- [x] deploy
 - [x] add-user API
 - [x] read from config file
 - [ ] use js instead of shell exec to process user addition
@@ -47,5 +53,5 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 
 - [ ] query AtCoder problems too
 - [ ] upload results to slack
-- [ ] document production deployment workflow
+- [x] document production deployment workflow
 
