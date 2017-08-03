@@ -78,6 +78,19 @@ function getRelevantSubmissionsWithDeprecatedApi(userId) {
    .then(R.filter(validate));
 }
 
+function doesUserExist(userId) {
+  const url =
+    `${endpoint}/users/${userId}`;
+  return hitJsonApi(url).then(res => res.id === userId);
+}
+
+function doesUserExistWithDeprecatedApi(userId) {
+  const oldEndpoint = 'http://judge.u-aizu.ac.jp';
+  const url =
+    `${oldEndpoint}/onlinejudge/webservice/user?id=${userId}`;
+  return hitXmlApi(url).then(res => res.user.id !== undefined);
+}
+
 const judgeVerdictsMap = {
   0: 'CE', // Compile Error
   1: 'WA', // Wrong Answer
@@ -98,6 +111,7 @@ function lookupJudgeVerdict(statusCode) {
 }
 
 module.exports = {
+  doesUserExist: doesUserExistWithDeprecatedApi,
   hitDeprecatedApi,
   getRelevantSubmissions: getRelevantSubmissionsWithDeprecatedApi,
   lookupJudgeVerdict,

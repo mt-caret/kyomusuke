@@ -22,6 +22,15 @@ function get(db, query, params) {
   });
 }
 
+function run(db, query, params) {
+  return new Promise((resolve, reject) => {
+    db.run(query, params, (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+}
+
 const throttleRate = 1000; // msecs
 function sleepPromise(x) {
   return new Promise(resolve => setTimeout(() => resolve(x), throttleRate));
@@ -118,8 +127,14 @@ function fetchAllUsers() {
     .then(R.map(R.prop('aoj_id')));
 }
 
+function addUser(userId) {
+  const query = 'INSERT OR IGNORE INTO user (aoj_id) VALUES (?)';
+  return openDB(db => run(db, query, [userId]));
+}
+
 module.exports = {
   updateFromApi,
   fetchAllProblems,
   fetchAllUsers,
+  addUser,
 };
