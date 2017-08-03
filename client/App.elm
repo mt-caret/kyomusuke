@@ -8,7 +8,7 @@ import Task
 import Http
 import Dict
 
-import Api exposing (VerdictData, UserData, Verdict, populateVerdictData, extractUsers, AddUserResponse)
+import Api exposing (VerdictData, UserData, Verdict, populateVerdictData, extractUsers, AddUserResponse, Date)
 
 -- MODEL
 
@@ -18,14 +18,33 @@ type alias Model =
     , users : List String
     , userId : String
     , keyword : String
+    , today : Date
+    , debug : Bool
     }
-
 
 
 type Page
   = Table
   | About
   | AddUser
+
+
+type alias Flags =
+    { year : Int
+    , month : Int
+    , day : Int
+    , debug : Bool
+    }
+
+
+initDate : Flags -> Date
+initDate flags =
+    Date flags.year flags.month flags.day
+
+
+init : Flags -> ( Model, Cmd Msg )
+init flags =
+    ( Model Table Dict.empty [] "" "" (initDate flags) flags.debug , getVerdictData )
 
 
 getVerdictData : Cmd Msg
@@ -45,12 +64,6 @@ postUserAdd userId keyword =
         post = Http.post "/add" (Http.jsonBody body) Api.addUserResponseDecoder
     in
         Http.send LoadAddUserResponse post
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( Model Table Dict.empty [] "" "", getVerdictData )
-
 
 -- MESSAGES
 
@@ -113,14 +126,24 @@ content model =
         div [ class "content" ] [ content ]
 
 
+isPast : Date -> Date -> Bool
+isPast d d2 =
+  d.year < d2.year || d.month < d2.month || d.day < d2.day
+
+
 tableView : Model -> Html Msg
 tableView model =
     let
-        acToTd n = td [ class "text-center" ] [ text (toString n) ]
+        classColor date n = class ("text-center" ++
+            if n > 0 then " table-success"
+            else if model.today == date then " table-warning"
+            else if isPast date model.today then " table-danger"
+            else "")
+        acToTd date n = td [ classColor date n ] [ text (toString n) ]
         enumUsers date =
             tr []
             ((th [ scope "row", class "text-center" ] [ text (Api.dateToString date) ]) ::
-              List.map (Api.queryVerdict model.data date >> .ac >> acToTd) model.users)
+              List.map (Api.queryVerdict model.data date >> .ac >> acToTd date) model.users)
         range = Api.dateRange Api.startDate Api.endDate
     in
         table [ class "table table-bordered table-sm" ]
@@ -199,9 +222,9 @@ subscriptions model =
 -- MAIN
 
 
-main : Program Never Model Msg
+main : Program Flags Model Msg
 main =
-    program
+    programWithFlags
         { init = init
         , view = view
         , update = update

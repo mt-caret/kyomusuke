@@ -34,8 +34,8 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [x] add about text
 - [ ] proper routing
 - [ ] proper date support
-- [ ] status colors on cells (green if AC > 0, yellow if AC == 0 && today, red if AC == 0 && past)
-- [ ] debug mode (give NODE_ENV to Elm)
+- [x] status colors on cells (green if AC > 0, yellow if AC == 0 && today, red if AC == 0 && past)
+- [x] debug mode (give NODE_ENV to Elm)
 - [ ] sum row and colum on table
 
 ### backend
