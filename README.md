@@ -36,6 +36,7 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [ ] proper date support
 - [ ] status colors on cells (green if AC > 0, yellow if AC == 0 && today, red if AC == 0 && past)
 - [ ] debug mode (give NODE_ENV to Elm)
+- [ ] sum row and colum on table
 
 ### backend
 
@@ -55,6 +56,7 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 
 ### misc
 
+- [ ] apply eslint and elm-format
 - [ ] query AtCoder problems too
 - [ ] upload results to slack
 - [x] document production deployment workflow
