@@ -76,3 +76,4 @@ repl-temp-*
 
 db.sqlite
 dist/
+config.yml
