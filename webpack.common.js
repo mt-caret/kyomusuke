@@ -1,6 +1,8 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -13,6 +15,13 @@ module.exports = {
       title: 'kyomusuke',
       template: './client/index.ejs',
     }),
+    new FaviconsWebpackPlugin('./kyomusuke.png'),
+    new CopyWebpackPlugin([
+      {
+        from: './kyomusuke.png',
+        to: './',
+      },
+    ]),
   ],
   output: {
     filename: '[name].bundle.js',
