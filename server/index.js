@@ -20,7 +20,18 @@ const list = require('./lib/list.js').list;
 
 const development = process.env.NODE_ENV !== 'production';
 
-const job = schedule.scheduleJob('*/10 * * * *', db.updateFromApi);
+let lastUpdateTime = {};
+function updateDB() {
+  db.updateFromApi()
+    .then(() => {
+      lastUpdateTime = {
+        time: moment().format('YYYY-MM-DD HH:mm')
+      };
+    });
+}
+updateDB();
+
+const job = schedule.scheduleJob('*/10 * * * *', updateDB);
 // execute job every 10 minutes
 
 const app = express();
@@ -64,6 +75,12 @@ app.get('/stats', (req, res) => {
       dbCallToObject()
         .then(obj => res.send(obj));
     },
+  });
+});
+
+app.get('/lastUpdate', (req, res) => {
+  res.format({
+    json: () => res.send(lastUpdateTime),
   });
 });
 

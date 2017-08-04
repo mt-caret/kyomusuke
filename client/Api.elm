@@ -158,3 +158,6 @@ addUserResponseDecoder =
 userListDecoder : Decoder (List String)
 userListDecoder = list string
 
+lastUpdateTimeDecoder : Decoder (Maybe String)
+lastUpdateTimeDecoder = maybe (field "time" string)
+

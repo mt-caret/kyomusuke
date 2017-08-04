@@ -20,6 +20,7 @@ type alias Model =
     , keyword : String
     , today : Date
     , debug : Bool
+    , lastUpdateTime : Maybe String
     }
 
 
@@ -44,7 +45,7 @@ initDate flags =
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( Model Table Dict.empty [] "" "" (initDate flags) flags.debug , getVerdictData )
+    ( Model Table Dict.empty [] "" "" (initDate flags) flags.debug  Nothing, Cmd.batch [ getLastUpdateTime, getVerdictData ])
 
 
 getVerdictData : Cmd Msg
@@ -65,6 +66,10 @@ postUserAdd userId keyword =
     in
         Http.send LoadAddUserResponse post
 
+getLastUpdateTime : Cmd Msg
+getLastUpdateTime = 
+    Http.send LoadLastUpdateTime (Http.get "/lastUpdate" Api.lastUpdateTimeDecoder)
+
 -- MESSAGES
 
 
@@ -74,6 +79,7 @@ type Msg
     | LoadData (Result Http.Error (List UserData))
     | LoadUserList (Result Http.Error (List String))
     | LoadAddUserResponse (Result Http.Error AddUserResponse)
+    | LoadLastUpdateTime (Result Http.Error (Maybe String))
     | NewUserId String
     | NewKeyword String
     | SubmitAddUser
@@ -120,10 +126,10 @@ content model =
           content = 
               case model.page of
                   Table -> tableView model
-                  About -> aboutView
-                  AddUser -> addUserView
+                  About -> [ aboutView ]
+                  AddUser -> [ addUserView ]
     in
-        div [ class "content" ] [ content ]
+        div [ class "content" ] content
 
 
 isPast : Date -> Date -> Bool
@@ -131,7 +137,7 @@ isPast d d2 =
   d.year < d2.year || d.month < d2.month || d.day < d2.day
 
 
-tableView : Model -> Html Msg
+tableView : Model -> List (Html Msg)
 tableView model =
     let
         classColor date n = class ("text-center" ++
@@ -149,7 +155,11 @@ tableView model =
               List.map (Api.queryVerdict model.data date >> .ac >> acToTd date) model.users)
         range = Api.dateRange Api.startDate Api.endDate
     in
-        table [ class "table table-bordered table-sm" ]
+        (case model.lastUpdateTime of
+            Nothing -> []
+            Just t -> [ small [] [ text ("最終更新日時: " ++ t) ] ]
+        ) ++
+        [ table [ class "table table-bordered table-sm" ]
             [ thead []
                 [ tr []
                     ((th [ class "text-center" ] [ text "date" ]) ::
@@ -157,6 +167,7 @@ tableView model =
                 ]
             , tbody [] (List.map enumUsers range)
             ]
+        ]
 
 aboutView : Html Msg
 aboutView = 
@@ -205,6 +216,10 @@ update msg model =
         LoadAddUserResponse (Ok addUserResponse) ->
             ( model, getVerdictData )
         LoadAddUserResponse (Err e) ->
+            Debug.log (toString e) (model, Cmd.none )
+        LoadLastUpdateTime (Ok lastUpdateTime) ->
+            ( { model | lastUpdateTime = lastUpdateTime }, Cmd.none )
+        LoadLastUpdateTime (Err e) ->
             Debug.log (toString e) (model, Cmd.none )
         NewUserId newUserId ->
             ( { model | userId = newUserId }, Cmd.none )
