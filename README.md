@@ -37,6 +37,8 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [x] status colors on cells (green if AC > 0, yellow if AC == 0 && today, red if AC == 0 && past)
 - [x] debug mode (give NODE_ENV to Elm)
 - [ ] sum row and colum on table
+- [ ] tooltip showing id+link to solved problems?
+- [ ] colorize user name based on score
 
 ### backend
 
@@ -53,11 +55,13 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [ ] hit api when user is added
 - [ ] cache the response with ex. node-cache?
 - [ ] debug mode
+- [ ] use async/await to clean up code
 
 ### misc
 
 - [ ] apply eslint and elm-format
 - [ ] query AtCoder problems too
 - [ ] upload results to slack
+- [ ] show date of last update
 - [x] document production deployment workflow
 
