@@ -20,7 +20,8 @@ const list = require('./lib/list.js').list;
 
 const development = process.env.NODE_ENV !== 'production';
 
-const job = schedule.scheduleJob({ minute: 0 }, db.updateFromApi);
+const job = schedule.scheduleJob('*/10 * * * *', db.updateFromApi);
+// execute job every 10 minutes
 
 const app = express();
 
