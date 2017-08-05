@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const schedule = require('node-schedule');
 const moment = require('moment');
 const R = require('ramda');
+const Slack = require('slack-node');
 const { spawn } = require('child_process');
 const webpackMiddleware = require('webpack-dev-middleware');
 const fs = require('fs');
@@ -31,8 +32,21 @@ function updateDB() {
 }
 updateDB();
 
-const job = schedule.scheduleJob('*/10 * * * *', updateDB);
+const updateDBJob = schedule.scheduleJob('*/10 * * * *', updateDB);
 // execute job every 10 minutes
+
+const slack = new Slack();
+slack.setWebhook(config.slackWebhookUrl);
+function postToSlack(message) {
+  slack.webhook({
+    channel: '#curriculum',
+    username: 'kyomusuke',
+    text: message,
+    icon_url: 'http://kyomusuke.keio-ac.jp/kyomusuke.png',
+  }, (err, res) => {
+    if (err) console.error(err);
+  });
+}
 
 const app = express();
 
@@ -68,6 +82,29 @@ function dbCallToObject() {
       return R.map(([userId, data]) => ({ userId, data }), pairs);
     });
 }
+
+function rankToSlack() {
+  const today = moment().format('YYYY-MM-DD');
+  const base = { verdicts: baseVerdictResult };
+  return dbCallToObject()
+    .then(R.map((record) => {
+      const res = R.filter(d => d.date === today, record.data)[0];
+      return [ R.defaultTo(base, res).verdicts.AC, record.userId ];
+    }))
+    .then(R.sortBy(R.prop(0)))
+    .then(R.map(R.reverse))
+    .then(R.reverse)
+    .then((results) => {
+      let message = `${today}のACランキング: ${'\n'}`;
+      for (let i = 0; i < results.length; i += 1) {
+        message += `${results[i][0]}: ${results[i][1]}${'\n'}`;
+      }
+      message += '日付変わるまであと三時間！まだACしてない人は急ごう！';
+      return message;
+    })
+    .then(postToSlack);
+}
+const rankToSlackJob = schedule.scheduleJob('0 21 * * *', rankToSlack);
 
 app.get('/stats', (req, res) => {
   res.format({

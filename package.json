@@ -16,6 +16,7 @@
     "node-schedule": "^1.2.3",
     "ramda": "^0.24.1",
     "sanitize.css": "^5.0.0",
+    "slack-node": "^0.1.8",
     "sqlite3": "^3.1.8",
     "webpack": "^3.4.1",
     "webpack-dev-middleware": "^1.11.0",
@@ -24,6 +25,7 @@
   },
   "scripts": {
     "server": "node --harmony server/index.js",
+    "dev": "NODE_ENV=development yarn server",
     "build": "NODE_ENV=production webpack --config webpack.prod.js --progress --profile --colors",
     "deploy": "yarn build && NODE_ENV=production yarn server",
     "lint": "eslint *.js client/ server/ bin/"
