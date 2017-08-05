@@ -104,7 +104,9 @@ function rankToSlack() {
     })
     .then(postToSlack);
 }
-const rankToSlackJob = schedule.scheduleJob('0 21 * * *', rankToSlack);
+if (!development) {
+  const rankToSlackJob = schedule.scheduleJob('0 21 * * *', rankToSlack);
+}
 
 app.get('/stats', (req, res) => {
   res.format({
