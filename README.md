@@ -61,7 +61,7 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 
 - [ ] apply eslint and elm-format
 - [ ] query AtCoder problems too
-- [ ] upload results to slack
+- [x] upload results to slack
 - [x] show date of last update
 - [x] document production deployment workflow
 
