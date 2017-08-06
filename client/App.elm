@@ -162,7 +162,7 @@ tableView model =
         [ table [ class "table table-bordered table-sm" ]
             [ thead []
                 [ tr []
-                    ((th [ class "text-center" ] [ text "date" ]) ::
+                    ((th [ class "text-center" ] [ text "date ＼ AOJ ID" ]) ::
                     List.map (\x -> th [ class "text-center" ] [ text x ]) model.users)
                 ]
             , tbody [] (List.map enumUsers range)
