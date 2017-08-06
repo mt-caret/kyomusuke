@@ -138,13 +138,14 @@ app.post('/add', (req, res) => {
       const valid = R.any(R.equals(req.body.keyword), config.keywords);
       if (development) console.log({ body: req.body, config, valid });
       if (valid) {
-        api.doesUserExist(req.body.userId)
+        const userId = R.toLower(req.body.userId);
+        api.doesUserExist(userId)
           .then((userExists) => {
             if (!userExists) {
               res.status(401);
               res.send({ status: 'user does not exist' });
             } else {
-              return db.addUser(req.body.userId)
+              return db.addUser(userId)
                 .then(() => res.send({ status: 'success' }));
             }
           });

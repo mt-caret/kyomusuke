@@ -129,7 +129,7 @@ function fetchAllUsers() {
 
 function addUser(userId) {
   const query = 'INSERT OR IGNORE INTO user (aoj_id) VALUES (?)';
-  return openDB(db => run(db, query, [userId]));
+  return openDB(db => run(db, query, [R.toLower(userId)]));
 }
 
 module.exports = {

@@ -1,3 +1,4 @@
+const R = require('ramda');
 const db = require('../server/lib/db.js');
 const api = require('../server/lib/api.js');
 
@@ -6,7 +7,7 @@ if (process.argv.length !== 3) {
   process.exit(1);
 }
 
-const userId = process.argv[2];
+const userId = R.toLower(process.argv[2]);
 
 api.doesUserExist(userId)
   .then((userExist) => {
