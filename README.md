@@ -54,7 +54,7 @@ $ nix-shell --command 'yarn install; elm package install; return' # will drop yo
 - [x] use js instead of shell exec to process user addition
 - [ ] hit api when user is added
 - [ ] cache the response with ex. node-cache?
-- [ ] debug mode
+- [x] debug mode
 - [ ] use async/await to clean up code
 
 ### misc
