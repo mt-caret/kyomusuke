@@ -5,7 +5,7 @@
 ## dependencies
 
 - Nix Package Manager
-- nothing else; node stuff, sqlite3, etc. will be take care by Nix
+- nothing else; node stuff, sqlite3, etc. will be taken care of by Nix
 
 ## dev
 
